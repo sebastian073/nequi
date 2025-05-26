@@ -6,12 +6,17 @@ export default function Register() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async () => {
     if (!fullName) {
       alert("Por favor ingresa tu nombre completo.");
+      return;
+    }
+    if (!phoneNumber) {
+      alert("Por favor ingresa tu número de teléfono.");
       return;
     }
     if (!email) {
@@ -31,7 +36,7 @@ export default function Register() {
       // Inserta en tabla users
       const { error: insertError } = await supabase
         .from("users")
-        .insert([{ id: data.user.id, email, full_name: fullName }]);
+        .insert([{ id: data.user.id, email, full_name: fullName, phone_number: phoneNumber }]);
 
       if (insertError) throw insertError;
 
@@ -55,6 +60,14 @@ export default function Register() {
         placeholder="Nombre completo"
         value={fullName}
         onChange={(e) => setFullName(e.target.value)}
+        style={styles.input}
+        disabled={loading}
+      />
+      <input
+        type="tel"
+        placeholder="Número de teléfono"
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e.target.value)}
         style={styles.input}
         disabled={loading}
       />
