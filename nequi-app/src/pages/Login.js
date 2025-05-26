@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { supabase } from "../supabase";
+import { useNavigate } from "react-router-dom";  
 
-export default function Login({ history }) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); 
 
   const handleLogin = async () => {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       alert("Inicio de sesión exitoso");
-      history.push("/home");
+      navigate("/Home");  
     } catch (error) {
       alert(error.message);
     }
