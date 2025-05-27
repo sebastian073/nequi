@@ -4,6 +4,9 @@ import Home from "./pages/Home";
 import Join from "./pages/Join";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Transacciones from "./pages/Transacciones";
+import Transferencias from "./pages/Transferencias";
+
 
 function App() {
   return (
@@ -13,6 +16,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/transacciones" element={<Transacciones />} /> 
+        <Route path="/transferencias" element={<Transferencias />} />
+
       </Routes>
     </Router>
   );
