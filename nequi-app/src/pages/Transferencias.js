@@ -116,13 +116,13 @@ export default function Transferencias() {
       {
         account_id: cuentaOrigen.id,
         amount: parseFloat(monto),
-        transaction_type: "transfer_out",
+        transaction_type: "Enviado",
         description: `Enviado a ${telefonoDestino}`,
       },
       {
         account_id: cuentaDestino.id,
         amount: parseFloat(monto),
-        transaction_type: "transfer_in",
+        transaction_type: "Recibido",
         description: `Recibido de ${telefonoOrigen}`,
       },
     ]);
@@ -221,7 +221,7 @@ const styles = {
     fontSize: "18px",
     borderRadius: "14px",
     border: "none",
-    backgroundColor: "#b6e86b",
+    backgroundColor: "#8DB600",
     color: "#000",
     cursor: "pointer",
     boxShadow: "0 4px 15px rgba(0,102,204,0.7)",

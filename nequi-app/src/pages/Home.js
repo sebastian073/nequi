@@ -39,7 +39,7 @@ export default function Home() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/"); // redirige al login
+    navigate("/");
   };
 
   const crearCuenta = async () => {
@@ -71,6 +71,13 @@ export default function Home() {
 
   return (
     <div style={styles.pageContainer}>
+      {/* Botón de configuración arriba a la derecha */}
+      <div style={styles.settingsButtonContainer}>
+        <button onClick={() => navigate("/configuracion")} style={styles.settingsButton}>
+          ⚙️
+        </button>
+      </div>
+
       {/* Primer tercio */}
       <div style={styles.topThird}>
         <h1 style={styles.title}>Bienvenido a tu cuenta Nequi</h1>
@@ -93,7 +100,7 @@ export default function Home() {
         )}
       </div>
 
-      {/* Tercer tercio: Menú inferior */}
+      {/* Tercer tercio */}
       <div style={styles.bottomThird}>
         <div style={styles.menuBox}>
           {!loading && account && (
@@ -120,7 +127,23 @@ const styles = {
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
+    position: "relative",
     fontFamily: "'Poppins', Arial, sans-serif",
+  },
+  settingsButtonContainer: {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    zIndex: 10,
+  },
+  settingsButton: {
+    padding: "8px 12px",
+    fontSize: "18px",
+    backgroundColor: "#ffffff",
+    border: "2px solid #ccc",
+    borderRadius: "50%",
+    cursor: "pointer",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
   },
   topThird: {
     flex: 1,
@@ -151,7 +174,7 @@ const styles = {
     padding: "20px",
   },
   menuBox: {
-    backgroundColor: "#e8d5f7", // morado pastel claro
+    backgroundColor: "#e8d5f7",
     padding: "20px",
     borderRadius: "16px",
     width: "90%",
