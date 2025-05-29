@@ -7,7 +7,6 @@ export default function Home() {
   const [account, setAccount] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Obtener la cuenta del usuario actual
   useEffect(() => {
     const fetchAccount = async () => {
       const {
@@ -19,8 +18,6 @@ export default function Home() {
         console.error("Error obteniendo usuario:", userError.message);
         return;
       }
-
-      console.log("ID del usuario autenticado:", user.id);
 
       const { data, error } = await supabase
         .from("accounts")
@@ -40,13 +37,11 @@ export default function Home() {
     fetchAccount();
   }, []);
 
-  // Cerrar sesión
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/"); // redirige al login
   };
 
-  // Crear cuenta si no existe
   const crearCuenta = async () => {
     const {
       data: { user },
@@ -75,81 +70,139 @@ export default function Home() {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px", position: "relative", minHeight: "100vh" }}>
-      <h1>Bienvenido a tu cuenta Nequi</h1>
-      <p>Gestiona tu dinero de manera eficiente.</p>
+    <div style={styles.pageContainer}>
+      {/* Primer tercio */}
+      <div style={styles.topThird}>
+        <h1 style={styles.title}>Bienvenido a tu cuenta Nequi</h1>
+        <p style={styles.subtitle}>Gestiona tu dinero de manera eficiente.</p>
+      </div>
 
-      {!loading && account ? (
-        <div>
-          <h3>Tipo de cuenta: {account.account_type}</h3>
-          <h3>Saldo actual: ${account.balance.toLocaleString()}</h3>
+      {/* Segundo tercio */}
+      <div style={styles.middleThird}>
+        {!loading && account ? (
+          <>
+            <h3 style={styles.infoText}>Tipo de cuenta: {account.account_type}</h3>
+            <h3 style={styles.infoText}>Saldo actual: ${account.balance.toLocaleString()}</h3>
+          </>
+        ) : (
+          !loading && (
+            <button onClick={crearCuenta} style={styles.createAccountButton}>
+              Crear cuenta
+            </button>
+          )
+        )}
+      </div>
 
-          <button
-            onClick={() => navigate("/transacciones")}
-            style={{
-              marginTop: "20px",
-              padding: "10px 20px",
-              backgroundColor: "#4CAF50",
-              color: "#fff",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            Ver transacciones
+      {/* Tercer tercio: Menú inferior */}
+      <div style={styles.bottomThird}>
+        <div style={styles.menuBox}>
+          {!loading && account && (
+            <>
+              <button onClick={() => navigate("/transacciones")} style={styles.whiteButton}>
+                Movimientos
+              </button>
+              <button onClick={() => navigate("/transferencias")} style={styles.whiteButton}>
+                Enviar
+              </button>
+            </>
+          )}
+          <button onClick={handleLogout} style={styles.redButton}>
+            Cerrar sesión
           </button>
-
-          <button
-            onClick={() => navigate("/transferencias")}
-            style={{
-              marginTop: "20px",
-              padding: "10px 20px",
-              backgroundColor: "#8000ff",
-              color: "#fff",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            Transferir dinero
-          </button>
-
         </div>
-      ) : (
-        !loading && (
-          <button
-            onClick={crearCuenta}
-            style={{
-              marginTop: "20px",
-              padding: "10px 20px",
-              backgroundColor: "#0066cc",
-              color: "#fff",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            Crear cuenta
-          </button>
-        )
-      )}
-
-      <button
-        onClick={handleLogout}
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "20px",
-          padding: "10px 20px",
-          backgroundColor: "#ff4d4d",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-      >
-        Cerrar sesión
-      </button>
+      </div>
     </div>
   );
 }
+
+const styles = {
+  pageContainer: {
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    fontFamily: "'Poppins', Arial, sans-serif",
+  },
+  topThird: {
+    flex: 1,
+    backgroundColor: "#2b003b",
+    color: "#f2e3f7",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    padding: "20px",
+  },
+  middleThird: {
+    flex: 1,
+    backgroundColor: "#ff2d75",
+    color: "#fff",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bottomThird: {
+    flex: 1,
+    backgroundColor: "#fff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "20px",
+  },
+  menuBox: {
+    backgroundColor: "#e8d5f7", // morado pastel claro
+    padding: "20px",
+    borderRadius: "16px",
+    width: "90%",
+    maxWidth: "600px",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    gap: "10px",
+  },
+  title: {
+    fontSize: "32px",
+    fontWeight: "700",
+  },
+  subtitle: {
+    fontSize: "18px",
+  },
+  infoText: {
+    fontSize: "24px",
+    fontWeight: "600",
+    margin: "8px 0",
+  },
+  createAccountButton: {
+    padding: "12px 24px",
+    fontSize: "18px",
+    borderRadius: "14px",
+    border: "none",
+    backgroundColor: "#0066cc",
+    color: "#fff",
+    cursor: "pointer",
+    boxShadow: "0 4px 15px rgba(0,102,204,0.7)",
+  },
+  whiteButton: {
+    flex: 1,
+    padding: "14px",
+    fontSize: "16px",
+    fontWeight: "600",
+    borderRadius: "10px",
+    border: "2px solid #ccc",
+    backgroundColor: "#ffffff",
+    color: "#000",
+    cursor: "pointer",
+  },
+  redButton: {
+    flex: 1,
+    padding: "14px",
+    fontSize: "16px",
+    fontWeight: "600",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#ff4d4d",
+    color: "#fff",
+    cursor: "pointer",
+  },
+};

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { supabase } from "../supabase";
-import { useNavigate } from "react-router-dom";  
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [fullName, setFullName] = useState("");
@@ -33,7 +33,6 @@ export default function Register() {
       const { data, error } = await supabase.auth.signUp({ email, password });
       if (error) throw error;
 
-      // Inserta en tabla users
       const { error: insertError } = await supabase
         .from("users")
         .insert([{ id: data.user.id, email, full_name: fullName, phone_number: phoneNumber }]);
@@ -54,7 +53,8 @@ export default function Register() {
 
   return (
     <div style={styles.container}>
-      <h2>Registrarse</h2>
+      <div style={styles.logo}>’Nequi</div>
+
       <input
         type="text"
         placeholder="Nombre completo"
@@ -87,29 +87,67 @@ export default function Register() {
         style={styles.input}
         disabled={loading}
       />
+
       <button onClick={handleRegister} style={styles.button} disabled={loading}>
         {loading ? "Registrando..." : "Registrarse"}
+      </button>
+
+      <button onClick={() => navigate("/")} style={styles.secondaryButton}>
+        Volver
       </button>
     </div>
   );
 }
 
 const styles = {
-  container: { textAlign: "center", marginTop: "50px" },
+  container: {
+    backgroundColor: "#2b003b",
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: "Arial, sans-serif",
+    color: "#fff",
+    padding: "20px",
+  },
+  logo: {
+    fontSize: "48px",
+    fontWeight: "bold",
+    color: "#f2e3f7",
+    marginBottom: "40px",
+  },
   input: {
-    display: "block",
-    margin: "10px auto",
-    padding: "10px",
-    width: "80%",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
+    padding: "12px",
+    margin: "10px 0",
+    border: "none",
+    borderRadius: "8px",
+    width: "250px",
+    backgroundColor: "#3c184a",
+    color: "#fff",
+    fontSize: "16px",
+    outline: "none",
   },
   button: {
-    padding: "10px 20px",
+    backgroundColor: "#ff2d75",
     color: "#fff",
-    backgroundColor: "#00bfa5",
+    padding: "12px 24px",
+    borderRadius: "8px",
     border: "none",
-    borderRadius: "5px",
+    fontWeight: "bold",
+    fontSize: "16px",
+    cursor: "pointer",
+    marginTop: "20px",
+  },
+  secondaryButton: {
+    backgroundColor: "#ffffff10",
+    color: "#f2e3f7",
+    padding: "10px 20px",
+    borderRadius: "8px",
+    border: "1px solid #f2e3f7",
+    fontWeight: "normal",
+    fontSize: "14px",
+    marginTop: "10px",
     cursor: "pointer",
   },
 };

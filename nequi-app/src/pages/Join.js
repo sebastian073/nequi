@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 export default function Join() {
   return (
     <div style={styles.container}>
-      <h1>Bienvenido a Nequi</h1>
-      <p>Gestiona tu dinero fácilmente.</p>
-      <div>
-        <Link to="/login" style={styles.button}>Iniciar Sesión</Link>
-        <Link to="/register" style={styles.button}>Registrarse</Link>
+      <div style={styles.logo}>’Nequi</div>
+
+      <div style={styles.buttonGroup}>
+        <Link to="/Login" style={styles.button}>Entrar</Link>
+        <Link to="/register" style={styles.secondaryButton}>Registrarse</Link>
       </div>
     </div>
   );
@@ -16,16 +16,54 @@ export default function Join() {
 
 const styles = {
   container: {
-    textAlign: "center",
-    marginTop: "50px",
+    backgroundColor: "#2b003b",
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: "Arial, sans-serif",
+    color: "#fff",
+    padding: "20px",
+  },
+  logo: {
+    fontSize: "48px",
+    fontWeight: "bold",
+    color: "#f2e3f7",
+    marginBottom: "40px",
+  },
+  input: {
+    padding: "12px",
+    margin: "10px 0",
+    border: "none",
+    borderRadius: "8px",
+    width: "250px",
+    backgroundColor: "#3c184a",
+    color: "#fff",
+    fontSize: "16px",
+    outline: "none",
+  },
+  buttonGroup: {
+    display: "flex",
+    gap: "10px",
+    marginTop: "20px",
   },
   button: {
-    display: "inline-block",
-    margin: "10px",
-    padding: "10px 20px",
+    backgroundColor: "#ff2d75",
     color: "#fff",
-    backgroundColor: "#00bfa5",
+    padding: "12px 24px",
+    borderRadius: "8px",
     textDecoration: "none",
-    borderRadius: "5px",
+    fontWeight: "bold",
+    fontSize: "16px",
+  },
+  secondaryButton: {
+    backgroundColor: "#53185c",
+    color: "#fff",
+    padding: "12px 24px",
+    borderRadius: "8px",
+    textDecoration: "none",
+    fontWeight: "bold",
+    fontSize: "16px",
   },
 };
